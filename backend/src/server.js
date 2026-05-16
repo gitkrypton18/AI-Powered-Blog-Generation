@@ -1,11 +1,9 @@
+// src/server.js - MINIMAL VERSION FOR TESTING
+// This version has NO route imports to test if that's the problem
 
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "../config/db.js";
-import authRoutes from "./routes/auth.routes.js";
-import blogRoutes from "./routes/blog.routes.js";
-import { errorHandler, notFound } from "./utils/errorHandler.js";
 
 dotenv.config();
 
@@ -33,17 +31,22 @@ app.get("/api/ping", (req, res) => {
   res.status(200).json({ message: "pong" });
 });
 
-// API Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/blog", blogRoutes);
+// Simple 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
 
-// Error handling middleware
-app.use(notFound);
-app.use(errorHandler);
+// Simple error handler
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(500).json({ 
+    error: err.message || "Internal Server Error",
+    timestamp: new Date().toISOString(),
+  });
+});
 
-// Only connect to DB and listen locally (not on Vercel)
+// Only listen locally (not on Vercel)
 if (process.env.NODE_ENV !== "production") {
-  connectDB();
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
