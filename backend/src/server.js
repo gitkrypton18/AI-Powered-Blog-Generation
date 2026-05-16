@@ -34,8 +34,8 @@ app.get("/api/ping", (req, res) => {
 });
 
 // API Routes
-app.use("/auth", authRoutes);
-app.use("/blog", blogRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/blog", blogRoutes);
 
 // Simple 404 handler
 app.use((req, res) => {
