@@ -1,49 +1,57 @@
 # AI Blog Generator
 
-A full-stack web application that leverages AI to generate complete blog posts with images using Hugging Face models. Users can create, edit, export, and manage AI-generated blog content with an intuitive interface.
+A full-stack web application that leverages AI to generate complete blog posts with images using Groq (Llama 3) and Unsplash. Users can create, edit, export, and manage AI-generated blog content with an intuitive, modern dark-themed interface.
 
-## 📝 Project Description
+---
 
-AI Blog Generator is a modern web application that automates blog content creation using advanced AI model. It generates comprehensive blog posts based on user-provided topics and preferred writing tones, complete with AI-generated images. The platform includes a rich text editor for content refinement, text regeneration features, and multiple export formats.
+## 📐 System Architecture
+
+Below is a simplified diagram of how the client, server, database, and AI integrations connect:
+
+```mermaid
+graph LR
+    User([User]) <--> Client[React Frontend]
+    Client <--> Server[Express Backend]
+    Server <--> MongoDB[(MongoDB Database)]
+    Server <--> Groq[Groq API - Llama 3]
+    Server <--> Unsplash[Unsplash / Pollinations AI]
+```
+
+---
 
 ## ✨ Key Features
 
-- **🤖 AI-Powered Blog Generation** - Generate complete blog posts using Hugging Face AI models
-- **🎨 AI Image Generation** - Automatically generate relevant images for blog content
-- **🖼️ Image Upload** - Upload custom images from local directory
-- **✏️ Rich Text Editor** - Edit and format blog content with a powerful WYSIWYG editor (Quill)
-- **🔄 Text Regeneration** - Rewrite, improve SEO, and change tone of selected text
-- **📤 Multiple Export Formats** - Export blogs to PDF, DOCX, and Markdown
-- **🔐 User Authentication** - Secure signup/login with JWT-based authentication
-- **🎯 Tone Selection** - Choose from multiple writing tones (professional, casual, formal, etc.)
+- **🤖 AI-Powered Blog Generation** - Generates complete blog posts using Llama 3 models on Groq.
+- **🎨 AI Image Generation** - Automatically retrieves relevant images using Unsplash API search queries based on the generated title (with Pollinations AI fallback).
+- **🖼️ Image Upload** - Upload custom images from your local directory to add them to your articles.
+- **✏️ Markdown Editor** - Edit blog content in a distraction-free monospace textarea with instant Markdown preview rendering.
+- **🔄 Selected-Text AI Copilot** - Highlight any text block in the editor to rewrite, improve SEO keywords, or shift its tone using AI.
+- **📤 Multiple Export Formats** - Export blogs to PDF, DOCX (Word), and Markdown.
+- **🔐 User Authentication** - Secure signup/login with JWT-based sessions and password hashing.
 
+---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 18** - Modern UI library
-- **Vite** - Fast build tool and dev server
+- **React 18** - UI rendering
+- **Vite** - Build tool and development server
+- **Tailwind CSS 4** - Modern CSS framework with dark-theme glassmorphism styles
 - **React Router DOM 7** - Client-side routing
-- **Axios** - HTTP client for API requests
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **Quill/React-Quill** - Rich text editor
-- **React Markdown** - Markdown rendering
+- **React Markdown** - Markdown preview parser
+- **Axios** - HTTP client
 
 ### Backend
-- **Node.js** - JavaScript runtime
+- **Node.js** - Runtime environment
 - **Express 5** - Web application framework
-- **MongoDB** - NoSQL database (via Mongoose)
-- **JWT** - JSON Web Tokens for authentication
-- **Bcrypt** - Password hashing
-- **Axios** - HTTP client for AI API calls
-- **Hugging Face API** - AI text and image generation
+- **MongoDB & Mongoose** - Database storage and schema mapping
+- **LangChain & Groq** - AI text generation workflows
 - **Puppeteer** - PDF generation
-- **html-to-docx** - DOCX export
-- **Turndown** - HTML to Markdown conversion
+- **html-to-docx** - Word document builder
+- **Turndown** - HTML-to-markdown conversion utility
+- **Bcryptjs & Jsonwebtoken** - Hashing and authentication tokens
 
-### DevOps & Tools
-- **dotenv** - Environment variable management
-- **ESLint** - Code linting
+---
 
 ## 📁 File Structure
 
@@ -54,7 +62,7 @@ AI-Blog/
 ├── backend/                    # Backend server
 │   ├── package.json           # Backend dependencies
 │   ├── config/
-│   │   └── db.js             # MongoDB connection
+│   │   └── db.js             # MongoDB connection setup
 │   └── src/
 │       ├── server.js         # Express server entry point
 │       ├── controllers/      # Request handlers
@@ -63,18 +71,17 @@ AI-Blog/
 │       │   ├── export.controller.js
 │       │   ├── regenerate.controller.js
 │       │   └── textRegeneration.controller.js
-│       ├── middleware/        # Express middleware
+│       ├── middleware/        # Authentication middleware
 │       │   └── auth.middleware.js
 │       ├── models/           # Mongoose schemas
 │       │   ├── blog.model.js
-│       │   ├── regenerate.model.js
 │       │   └── user.model.js
 │       ├── routes/           # API routes
 │       │   ├── auth.routes.js
 │       │   └── blog.routes.js
-│       ├── services/         # External services
-│       │   └── huggingface.service.js
-│       └── utils/            # Utility functions
+│       ├── services/         # AI Service wrapper
+│       │   └── ai.service.js
+│       └── utils/            # Shared utilities
 │           ├── errorHandler.js
 │           └── validation.js
 │
@@ -86,65 +93,82 @@ AI-Blog/
     └── src/
         ├── main.jsx          # React entry point
         ├── App.jsx           # Main App component
-        ├── index.css         # Global styles
-        ├── api/              # API client
+        ├── index.css         # Global tailwind styles & animations
+        ├── api/              # API clients
         │   ├── axios.js
         │   └── index.js
-        ├── components/       # React components
-        │   ├── BlogEditor.jsx
+        ├── components/       # UI components
         │   ├── BlogGenerator.jsx
-        │   ├── Editor.jsx
-        │   ├── EnhancedBlogGenerator.jsx
         │   ├── Export.jsx
         │   ├── ImageGallery.jsx
         │   ├── ProtectedRoute.jsx
-        │   ├── RegenerationComponents.jsx
         │   └── RichTextEditor.jsx
-        ├── context/          # React Context
+        ├── context/          # State management
         │   └── AuthContext.jsx
-        └── pages/            # Page components
+        └── pages/            # Page templates
             ├── Dashboard.jsx
             ├── Login.jsx
             └── Signup.jsx
 ```
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 - **Node.js** (v18 or higher)
-- **MongoDB** (local or Atlas)
-- **Hugging Face API Token** (get from [Hugging Face](https://huggingface.co/settings/tokens))
+- **MongoDB** (local server or Atlas cluster URI)
+- **Groq API Key** (get one free at [console.groq.com](https://console.groq.com))
+- **Unsplash Access Key** (optional, fell back to Pollinations AI if omitted)
 
-### Installation
+---
 
-#### 1. Clone the Repository
+### Environment Setup
 
-```bash
-git clone https://github.com/gitkrypton18/AI-Blog.git
-cd AI-Blog
+#### 1. Backend Config
+Create a `.env` file in the `backend/` directory:
+```env
+PORT=5000
+MONGO_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/yourdb
+JWT_SECRET=your_jwt_secret_token
+GROQ_API_KEY=gsk_your_groq_api_key
+UNSPLASH_ACCESS_KEY=your_unsplash_access_key
+FRONTEND_URL=http://localhost:5173
+NODE_ENV=development
 ```
 
-#### 2. Backend Setup
-
-```bash
-cd backend
-npm install
+#### 2. Frontend Config
+Create a `.env` file in the `frontend/` directory:
+```env
+VITE_API_URL=http://localhost:5000/api
 ```
 
-#### 3. Frontend Setup
+---
 
-```bash
-cd ../frontend
-npm install
-```
+### Run Application Locally
+
+1. **Start the Backend Server**:
+   ```bash
+   cd backend
+   npm install
+   npx puppeteer browsers install chrome    # Essential for PDF exports to work
+   npm run dev
+   ```
+
+2. **Start the Frontend Application**:
+   ```bash
+   cd ../frontend
+   npm install
+   npm run dev
+   ```
+
+3. Open your browser and navigate to `http://localhost:5173`.
+
+---
 
 ## 👥 Contributors
 
 Created by:
 - [Kalpit Nagar](https://github.com/gitkrypton18)
 - [Nikhil Nagar](https://github.com/Nikhil-X-codes)
-
-
-
-

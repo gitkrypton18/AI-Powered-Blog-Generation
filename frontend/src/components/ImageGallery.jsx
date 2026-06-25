@@ -64,43 +64,45 @@ export default function ImageGallery({ blog, onUpdate }) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-8 mt-8 border border-gray-200">
-      <h2 className="text-2xl font-bold mb-6 text-gray-900">
-        Blog Images ({blog.images?.length || 0})
+    <div className="rounded-2xl border border-slate-800/80 bg-slate-900/30 backdrop-blur-xl shadow-2xl p-6 md:p-8 mt-8">
+      <h2 className="text-xl font-bold mb-6 text-white tracking-tight">
+        🖼️ Blog Images ({blog.images?.length || 0})
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {blog.images?.map((image, index) => (
-          <div key={index} className="border border-gray-300 rounded-lg overflow-hidden">
-            <div className="relative group">
-              <img
-                src={image.url}
-                alt={`Image ${index + 1}`}
-                className="w-full h-64 object-cover"
-              />
-            </div>
-            <div className="p-4 bg-gray-50">
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleRemoveImage(index)}
-                  className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
-                >
-                  Remove
-                </button>
+      {blog.images?.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 animate-fade-in">
+          {blog.images.map((image, index) => (
+            <div key={index} className="border border-slate-800/80 bg-slate-950/40 rounded-xl overflow-hidden shadow-lg hover:border-slate-700/80 transition-all group">
+              <div className="relative overflow-hidden">
+                <img
+                  src={image.url}
+                  alt={`Image ${index + 1}`}
+                  className="w-full h-64 object-cover group-hover:scale-102 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-4 bg-slate-950/60 border-t border-slate-800/60">
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleRemoveImage(index)}
+                    className="w-full px-4 py-2 bg-gradient-to-r from-red-600/90 to-pink-650/90 hover:from-red-600 hover:to-pink-650 text-white rounded-lg font-semibold transition-all shadow-md shadow-red-500/10 cursor-pointer text-xs uppercase tracking-wider"
+                  >
+                    Delete Image
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
-      <div className="border-t border-gray-200 pt-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Upload Image</h3>
-        <div className="flex gap-3 items-center">
+      <div className="border-t border-slate-800/80 pt-6">
+        <h3 className="text-lg font-bold text-white mb-3 tracking-tight">📤 Upload New Image</h3>
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
           <label 
             htmlFor="image-upload" 
-            className={`cursor-pointer px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 inline-block ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`cursor-pointer px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-650 hover:from-blue-500 hover:to-purple-550 text-white rounded-xl font-bold text-sm shadow-lg shadow-purple-500/10 inline-block transition-all hover:scale-[1.01] active:scale-[0.99] ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            {uploading ? 'Uploading...' : 'Upload Image'}
+            {uploading ? 'Uploading...' : 'Choose File'}
           </label>
           <input
             id="image-upload"
@@ -110,7 +112,7 @@ export default function ImageGallery({ blog, onUpdate }) {
             className="hidden"
             disabled={uploading}
           />
-          <p className="text-sm text-gray-600">Select an image file to add it to this blog.</p>
+          <p className="text-xs text-slate-400">Select any JPEG/PNG image file to enrich your article.</p>
         </div>
       </div>
     </div>

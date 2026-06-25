@@ -1,5 +1,5 @@
 import Blog from '../models/blog.model.js';
-import huggingFaceService from '../services/huggingface.service.js';
+import aiService from '../services/ai.service.js';
 import { validateBlogInput, sanitizeInput } from '../utils/validation.js';
 import { AppError, asyncHandler } from '../utils/errorHandler.js';
 
@@ -14,42 +14,40 @@ export const generateCompleteBlog = asyncHandler(async (req, res) => {
 
   const sanitizedTopic = sanitizeInput(topic);
   const sanitizedTone = tone.trim();
+  const requestedFormat = (format || 'text').toLowerCase();
 
-  const { blogText, images } = await huggingFaceService.generateCompleteBlog(
+  const { blogText, images, title } = await aiService.generateCompleteBlog(
     sanitizedTopic,
-    sanitizedTone
+    sanitizedTone,
+    requestedFormat
   );
 
   const looksLikeHTML = /<\w+[^>]*>/.test(blogText || '');
   let finalContent = blogText || '';
-  const requestedFormat = (format || '').toLowerCase();
 
   if (requestedFormat === 'markdown') {
     if (looksLikeHTML) {
       const TurndownService = (await import('turndown')).default;
       const td = new TurndownService({ headingStyle: 'atx' });
       finalContent = td.turndown(finalContent);
-    } else {
     }
   } else if (requestedFormat === 'text' || requestedFormat === 'plain' || requestedFormat === 'plaintext') {
-    let plain = finalContent;
     if (looksLikeHTML) {
       const TurndownService = (await import('turndown')).default;
       const td = new TurndownService({ headingStyle: 'atx' });
-      plain = td.turndown(plain);
+      let plain = td.turndown(finalContent);
+      plain = plain
+        .replace(/[#!*_`>\-]+/g, '')
+        .replace(/\[(.*?)\]\((.*?)\)/g, '$1')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+      finalContent = plain;
     }
-    // Strip common markdown syntax to get plain text
-    plain = plain
-      .replace(/[#!*_`>\-]+/g, '')
-      .replace(/\[(.*?)\]\((.*?)\)/g, '$1')
-      .replace(/\n{3,}/g, '\n\n')
-      .trim();
-    finalContent = plain;
   }
 
   const blog = await Blog.create({
     userId: req.userId,
-    title: sanitizedTopic,
+    title: title || sanitizedTopic,
     tone: sanitizedTone,
     content: finalContent,
     images: images,

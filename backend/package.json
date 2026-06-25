@@ -6,19 +6,22 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "build": "echo 'Build complete'"
+    "build": "echo 'Build complete'",
+    "benchmark": "node src/scripts/benchmark.js",
+    "health-check": "node health-check.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
-"engines": {
-  "node": "20.x"
-},
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
+    "@langchain/core": "^0.3.0",
+    "@langchain/groq": "^0.2.0",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
-    "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
@@ -30,7 +33,6 @@
     "turndown": "^7.2.2"
   },
   "devDependencies": {
-    "@gradio/client": "^2.0.1",
     "nodemon": "^3.1.11"
   }
 }
