@@ -46,8 +46,8 @@ graph LR
 - **Express 5** - Web application framework
 - **MongoDB & Mongoose** - Database storage and schema mapping
 - **LangChain & Groq** - AI text generation workflows
-- **Puppeteer** - PDF generation
-- **html-to-docx** - Word document builder
+- **pdfmake & html-to-pdfmake & jsdom** - PDF generation (pure JS, zero native dependencies)
+- **@turbodocx/html-to-docx** - Word document builder (pure JS)
 - **Turndown** - HTML-to-markdown conversion utility
 - **Bcryptjs & Jsonwebtoken** - Hashing and authentication tokens
 
@@ -152,7 +152,6 @@ VITE_API_URL=http://localhost:5000/api
    ```bash
    cd backend
    npm install
-   npx puppeteer browsers install chrome    # Essential for PDF exports to work
    npm run dev
    ```
 
