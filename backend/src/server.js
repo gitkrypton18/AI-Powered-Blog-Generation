@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import blogRoutes from "./routes/blog.routes.js";
+import connectDB from "../config/db.js";
 
 dotenv.config();
 
@@ -16,7 +17,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check routes
+
+app.head('/health', (req, res) => {
+  res.status(200).end(); 
+});
+
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "ok",
@@ -54,8 +59,12 @@ app.use((err, req, res, next) => {
 // Only listen locally (not on Vercel)
 if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  }).catch((err) => {
+    console.error("Failed to connect to database:", err);
   });
 }
 
