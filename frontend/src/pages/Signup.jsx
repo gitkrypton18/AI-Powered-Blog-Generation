@@ -22,86 +22,126 @@ export default function Signup() {
       login(response.user, response.token);
       navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.message || 'Signup failed. Please try again.');
+      setError(err.response?.data?.message || 'Signup failed. Please check your details and try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-black px-4 py-12 relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Floating gradient orbs - more of them */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000" />
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-indigo-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000" />
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-cyan-500/15 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob animation-delay-3000" />
-        <div className="absolute bottom-10 right-10 w-72 h-72 bg-pink-500/15 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob animation-delay-5000" />
+    <div className="min-h-screen flex items-center justify-center bg-[#07090e] px-4 py-12 relative overflow-hidden">
+      {/* 3D Galactic Background & Stars */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Deep Space Gradients */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] animate-blob" />
+        <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[140px] animate-blob animation-delay-2000" />
+        <div className="absolute bottom-1/4 left-1/3 w-[550px] h-[550px] bg-cyan-600/15 rounded-full blur-[130px] animate-blob animation-delay-4000" />
         
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)]" />
+        {/* High-tech Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_90%_90%_at_50%_50%,black,transparent)]" />
         
-        {/* Moving particles - increased quantity */}
-        <div className="absolute top-10 left-10 w-2 h-2 bg-blue-400 rounded-full animate-float" />
-        <div className="absolute top-20 right-20 w-1 h-1 bg-purple-400 rounded-full animate-float animation-delay-1000" />
-        <div className="absolute bottom-20 left-1/4 w-1.5 h-1.5 bg-indigo-400 rounded-full animate-float animation-delay-2000" />
-        <div className="absolute top-1/2 right-10 w-2 h-2 bg-blue-300 rounded-full animate-float animation-delay-3000" />
-        <div className="absolute top-1/4 right-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-float animation-delay-4000" />
-        <div className="absolute bottom-1/3 right-1/4 w-2 h-2 bg-pink-400 rounded-full animate-float animation-delay-5000" />
-        <div className="absolute top-3/4 left-10 w-1.5 h-1.5 bg-violet-400 rounded-full animate-float animation-delay-1500" />
-        <div className="absolute bottom-10 left-1/2 w-1 h-1 bg-sky-400 rounded-full animate-float animation-delay-2500" />
-        <div className="absolute top-40 left-1/3 w-2 h-2 bg-purple-300 rounded-full animate-float animation-delay-3500" />
-        <div className="absolute bottom-40 right-1/3 w-1.5 h-1.5 bg-blue-300 rounded-full animate-float animation-delay-4500" />
-        
-        {/* Animated lines */}
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/20 to-transparent animate-pulse" />
-        <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-purple-500/20 to-transparent animate-pulse animation-delay-2000" />
+        {/* Floating Stars Layer */}
+        <div className="absolute inset-0 animate-float-stars pointer-events-none">
+          <div className="absolute top-[12%] left-[18%] w-1.5 h-1.5 bg-blue-300 rounded-full shadow-[0_0_10px_#60a5fa]" />
+          <div className="absolute top-[28%] right-[22%] w-2 h-2 bg-purple-300 rounded-full shadow-[0_0_12px_#c084fc]" />
+          <div className="absolute top-[48%] left-[12%] w-2.5 h-2.5 bg-cyan-300 rounded-full shadow-[0_0_15px_#22d3ee]" />
+          <div className="absolute top-[65%] right-[18%] w-1.5 h-1.5 bg-pink-300 rounded-full shadow-[0_0_10px_#f472b6]" />
+          <div className="absolute bottom-[22%] left-[28%] w-2 h-2 bg-blue-200 rounded-full shadow-[0_0_12px_#93c5fd]" />
+          <div className="absolute bottom-[38%] right-[28%] w-2.5 h-2.5 bg-purple-200 rounded-full shadow-[0_0_15px_#e879f9]" />
+          <div className="absolute top-[18%] right-[45%] w-1 h-1 bg-white rounded-full shadow-[0_0_8px_#ffffff]" />
+          <div className="absolute bottom-[18%] left-[48%] w-1.5 h-1.5 bg-cyan-200 rounded-full shadow-[0_0_10px_#a5f3fc]" />
+        </div>
       </div>
 
-      <section className="order-1 relative w-full max-w-2xl z-10">
-        <div className="group relative w-full h-full">
-          <div className="absolute inset-0 rounded-2xl overflow-hidden">
-            <div className="pointer-events-none absolute -inset-10 rounded-full bg-gradient-to-r from-transparent via-slate-800/30 to-transparent blur-xl opacity-40 animate-spin [animation-duration:10s]" />
-            <div className="pointer-events-none absolute -inset-20 rounded-full bg-gradient-to-r from-transparent via-slate-900/25 to-transparent blur-2xl opacity-25 animate-spin [animation-duration:18s] [animation-direction:reverse]" />
+      <div className="relative w-full max-w-5xl z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        {/* Left Side: 3D Rocket Launching Visualizer */}
+        <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left px-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 backdrop-blur-md mb-6 shadow-[0_0_20px_rgba(168,85,247,0.15)]">
+            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-purple-300">Join the Elite AI Portal</span>
           </div>
 
-          <div className="absolute inset-0 rounded-2xl p-px bg-gradient-to-b transition-opacity duration-300 group-hover:opacity-100 from-slate-800/30 via-slate-900/50 to-slate-950/60" />
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-none mb-6">
+            Initialize Your <br />
+            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+              Creator Engine.
+            </span>
+          </h1>
+          
+          <p className="text-base sm:text-lg text-slate-300 max-w-lg mb-10 leading-relaxed">
+            Create an account to gain instant access to our state-of-the-art AI content suite, powered by Groq Llama 3.3 70B & LangChain.js.
+          </p>
 
-          <div
-            className="relative h-full overflow-hidden ring-1 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_40px_-10px_rgba(15,23,42,0.7)] rounded-2xl shadow-inner ring-slate-800/50 hover:ring-slate-700/50"
-            style={{
-              backgroundColor: '#0b0d12',
-              backgroundImage: `
-                radial-gradient(at 88% 40%, rgba(17,24,39,0.9) 0px, transparent 85%),
-                radial-gradient(at 49% 30%, rgba(15,23,42,0.85) 0px, transparent 85%),
-                radial-gradient(at 14% 26%, rgba(15,23,42,0.85) 0px, transparent 85%),
-                radial-gradient(at 0% 64%, rgba(30,41,59,0.6) 0px, transparent 85%),
-                radial-gradient(at 41% 94%, rgba(30,41,59,0.5) 0px, transparent 85%),
-                radial-gradient(at 100% 99%, rgba(30,41,59,0.45) 0px, transparent 85%)
-              `,
-            }}
-          >
-            <div className="relative sm:p-8 lg:p-10 flex flex-col h-full pt-6 pr-6 pb-6 pl-6">
+          {/* Animated SVG Rocket Visual */}
+          <div className="relative w-64 h-64 sm:w-72 sm:h-72 my-4 flex items-center justify-center pointer-events-none">
+            {/* Glowing Backdrop Ring */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-500/20 to-pink-500/20 blur-2xl animate-pulse-ring" />
+            
+            {/* Rocket Container */}
+            <div className="relative z-10 animate-rocket">
+              <svg className="w-48 h-48 drop-shadow-[0_10px_25px_rgba(168,85,247,0.5)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Rocket Body */}
+                <path d="M13.62 3.19C13.23 2.72 12.65 2.5 12 2.5C11.35 2.5 10.77 2.72 10.38 3.19C8.38 5.61 7.23 9.4 7.03 13.62C7 13.97 7.15 14.31 7.42 14.53C7.68 14.74 8.04 14.81 8.36 14.71L10.76 13.91V16.5C10.76 17.19 11.32 17.75 12 17.75C12.68 17.75 13.24 17.19 13.24 16.5V13.91L15.64 14.71C15.96 14.81 16.32 14.74 16.58 14.53C16.85 14.31 17 13.97 16.97 13.62C16.77 9.4 15.62 5.61 13.62 3.19Z" fill="url(#rocketGrad2)" />
+                {/* Window */}
+                <circle cx="12" cy="8.5" r="1.5" fill="#07090e" stroke="#c084fc" strokeWidth="0.5" />
+                {/* Left Fin */}
+                <path d="M7.03 13.62C6.31 13.86 5.65 14.31 5.14 14.93C4.54 15.67 4.25 16.63 4.34 17.6C4.42 18.39 5.09 19 5.89 19H7.69C7.94 19 8.16 18.84 8.23 18.6L9.36 14.84L7.03 13.62Z" fill="#a855f7" />
+                {/* Right Fin */}
+                <path d="M16.97 13.62C17.69 13.86 18.35 14.31 18.86 14.93C19.46 15.67 19.75 16.63 19.66 17.6C19.58 18.39 18.91 19 18.11 19H16.31C16.06 19 15.84 18.84 15.77 18.6L14.64 14.84L16.97 13.62Z" fill="#a855f7" />
+                
+                {/* Animated Flame Exhaust */}
+                <g className="animate-exhaust">
+                  <path d="M10.25 18.25L11.5 22.5C11.65 23 12.35 23 12.5 22.5L13.75 18.25H10.25Z" fill="url(#flameGrad2)" />
+                  <path d="M11 18.25L11.75 21C11.85 21.3 12.15 21.3 12.25 21L13 18.25H11Z" fill="#fef08a" />
+                </g>
+
+                <defs>
+                  <linearGradient id="rocketGrad2" x1="12" y1="2.5" x2="12" y2="17.75" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#ffffff" />
+                    <stop offset="1" stopColor="#cbd5e1" />
+                  </linearGradient>
+                  <linearGradient id="flameGrad2" x1="12" y1="18.25" x2="12" y2="23" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#ec4899" />
+                    <stop offset="1" stopColor="#eab308" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side: Premium Glassmorphic Signup Card */}
+        <div className="lg:col-span-6">
+          <div className="glass-card rounded-2xl p-6 sm:p-10 relative overflow-hidden glass-card-hover">
+            {/* Ambient Card Glow */}
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/20 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-pink-500/20 rounded-full blur-2xl pointer-events-none" />
+
+            <div className="relative z-10">
               <div className="mb-8">
-                <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">Create account</h1>
-                <p className="text-sm mt-1.5 text-gray-400">Join with your name, email, and password.</p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">Create Account</h2>
+                <p className="text-slate-400 text-sm">Register to deploy AI workflows and generate high-end articles.</p>
               </div>
 
               {error && (
-                <div className="mb-4 p-3 bg-red-500/10 border border-red-500/40 text-red-100 rounded-lg">
-                  {error}
+                <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 text-red-200 rounded-xl text-sm flex items-center gap-3 backdrop-blur-md animate-pulse">
+                  <svg className="w-5 h-5 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{error}</span>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                 <div>
-                  <label htmlFor="name" className="block text-xs font-medium mb-1.5 text-gray-300">Name</label>
+                  <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                    Full Name
+                  </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" />
-                        <path d="M4 22c0-4.418 3.582-8 8-8s8 3.582 8 8" />
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
                     <input
@@ -111,19 +151,20 @@ export default function Signup() {
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded-lg placeholder-gray-500 ring-1 focus:ring-2 focus:ring-gray-400/50 focus:outline-none transition px-10 py-2.5 text-sm bg-gray-900/50 text-gray-100 ring-gray-600/30"
-                      placeholder="Jane Doe"
+                      className="w-full glass-input rounded-xl pl-12 pr-4 py-3.5 text-sm placeholder-slate-500 focus:ring-2 focus:ring-purple-500/50"
+                      placeholder="Sarah Connor"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-xs font-medium mb-1.5 text-gray-300">Email</label>
+                  <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                    Email Address
+                  </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <input
@@ -134,21 +175,22 @@ export default function Signup() {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-lg placeholder-gray-500 ring-1 focus:ring-2 focus:ring-gray-400/50 focus:outline-none transition px-10 py-2.5 text-sm bg-gray-900/50 text-gray-100 ring-gray-600/30"
-                      placeholder="you@example.com"
+                      className="w-full glass-input rounded-xl pl-12 pr-4 py-3.5 text-sm placeholder-slate-500 focus:ring-2 focus:ring-purple-500/50"
+                      placeholder="commander@galaxy.ai"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between">
-                    <label htmlFor="password" className="block text-xs font-medium mb-1.5 text-gray-300">Password</label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                      Password
+                    </label>
                   </div>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-                        <path d="m7 11V7a5 5 0 0 1 10 0v4" />
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
                     </div>
                     <input
@@ -160,8 +202,8 @@ export default function Signup() {
                       minLength={6}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full rounded-lg placeholder-gray-500 ring-1 focus:ring-2 focus:ring-gray-400/50 focus:outline-none transition px-10 pr-11 py-2.5 text-sm bg-gray-900/50 text-gray-100 ring-gray-600/30"
-                      placeholder="••••••••"
+                      className="w-full glass-input rounded-xl pl-12 pr-4 py-3.5 text-sm placeholder-slate-500 focus:ring-2 focus:ring-purple-500/50"
+                      placeholder="••••••••••••"
                     />
                   </div>
                 </div>
@@ -169,24 +211,40 @@ export default function Signup() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 glass-button-primary rounded-xl font-bold text-sm tracking-wide uppercase shadow-lg transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Creating account...' : 'Create account'}
+                  {loading ? (
+                    <>
+                      <svg className="w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>Compiling Telemetry...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Initialize Account</span>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </>
+                  )}
                 </button>
-
               </form>
-              <div className="mt-8 text-xs text-gray-500 flex items-center justify-between">
+
+              <div className="mt-8 pt-6 border-t border-slate-800/80 text-center text-sm text-slate-400">
                 <p>
                   Already have an account?{' '}
-                  <Link to="/login" className="hover:underline underline-offset-4 text-gray-300 hover:text-white">
-                    Log in
+                  <Link to="/login" className="font-semibold text-purple-400 hover:text-purple-300 transition-colors">
+                    Engage Login
                   </Link>
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </section>
+
+      </div>
     </div>
   );
 }
