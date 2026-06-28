@@ -3,19 +3,21 @@ import ReactMarkdown from 'react-markdown';
 import { blogAPI } from '../api';
 
 const TONES = [
-  { value: 'professional', label: '💼 Professional' },
-  { value: 'fun', label: '🎉 Fun / Casual' },
-  { value: 'concise', label: '📝 Concise / Direct' }
+  { value: 'professional', label: '🛡️ Professional & Authoritative' },
+  { value: 'conversational', label: '💬 Conversational & Engaging' },
+  { value: 'thought_leadership', label: '💡 Thought Leadership' },
+  { value: 'concise', label: '⚡ Concise & Direct' },
+  { value: 'humorous', label: '🎭 Witty & Entertaining' }
 ];
 
 export default function RichTextEditor({ blog, onUpdate, images }) {
-  const [content, setContent] = useState(blog.content);
+  const [content, setContent] = useState(blog.content || '');
   const [selectedText, setSelectedText] = useState('');
   const [hasSelection, setHasSelection] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [showToneMenu, setShowToneMenu] = useState(false);
-  const [previewMode, setPreviewMode] = useState(false);
+  const [previewMode, setPreviewMode] = useState(true); // Default to gorgeous article preview mode
 
   const handleSelection = (e) => {
     const start = e.target.selectionStart;
@@ -36,9 +38,9 @@ export default function RichTextEditor({ blog, onUpdate, images }) {
     try {
       await blogAPI.updateBlog(blog.blogId, { content });
       onUpdate({ ...blog, content });
-      alert('Blog saved successfully!');
+      alert('✅ Live review modifications saved to database successfully!');
     } catch (err) {
-      alert('Failed to save blog');
+      alert('❌ Failed to save modifications. Please verify backend connection.');
     } finally {
       setSaving(false);
     }
@@ -46,7 +48,7 @@ export default function RichTextEditor({ blog, onUpdate, images }) {
 
   const handleTextAction = async (action, tone = null) => {
     if (!selectedText || selectedText.length < 10) {
-      alert('Please select at least 10 characters of text');
+      alert('⚠️ Please select at least 10 characters of text in Edit Mode to trigger AI actions.');
       return;
     }
 
@@ -58,7 +60,7 @@ export default function RichTextEditor({ blog, onUpdate, images }) {
       
       switch (action) {
         case 'rewrite':
-          response = await blogAPI.rewriteText(blog.blogId, selectedText, blog.tone);
+          response = await blogAPI.rewriteText(blog.blogId, selectedText, blog.tone || 'professional');
           break;
         case 'improveSEO':
           response = await blogAPI.improveSEO(blog.blogId, selectedText);
@@ -76,10 +78,13 @@ export default function RichTextEditor({ blog, onUpdate, images }) {
         const updated = content.replace(selectedText, newText);
         setContent(updated);
         onUpdate({ ...blog, content: updated });
+        alert('✨ AI text transformation applied successfully!');
+      } else {
+        throw new Error('No replacement returned from server.');
       }
 
     } catch (err) {
-      alert('Failed to process text');
+      alert('❌ Failed to process AI text transformation. Please check API keys or server logs.');
     } finally {
       setProcessing(false);
       setShowToneMenu(false);
@@ -87,176 +92,170 @@ export default function RichTextEditor({ blog, onUpdate, images }) {
   };
 
   return (
-    <div className="rounded-2xl border border-slate-800/80 bg-slate-900/30 backdrop-blur-xl shadow-2xl p-6 md:p-8 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="space-y-6 relative z-10">
+      {/* Top Studio Review Controls Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-800/80">
         <div>
-          <h3 className="text-xl font-bold text-white tracking-tight">📝 Edit Blog Post</h3>
-          <p className="text-xs text-slate-400 mt-1">Select text to access AI editing actions.</p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[11px] font-bold uppercase tracking-wider text-purple-400 mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+            <span>Live Changeable Content Review</span>
+          </div>
+          <h3 className="text-2xl font-extrabold text-white tracking-tight">
+            {blog.title || 'AI Generated Article'}
+          </h3>
+          <p className="text-slate-400 text-xs mt-1">
+            Toggle between Live Web Preview and Interactive AI Editor to fine-tune your content before exporting.
+          </p>
         </div>
-        <div className="flex items-center gap-3 self-end sm:self-center">
-          <button
-            onClick={() => setPreviewMode(!previewMode)}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/50 rounded-xl font-semibold text-sm transition-all cursor-pointer flex items-center gap-1.5"
-          >
-            {previewMode ? (
-              <>
-                <span>✏️</span>
-                <span>Edit Mode</span>
-              </>
-            ) : (
-              <>
-                <span>👁️</span>
-                <span>Preview Mode</span>
-              </>
-            )}
-          </button>
-          
+
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {/* Mode Switcher */}
+          <div className="bg-[#0b0d14] p-1.5 rounded-xl border border-slate-800 flex items-center gap-1 shadow-inner">
+            <button
+              onClick={() => setPreviewMode(true)}
+              className={`px-4 py-2 rounded-lg text-xs font-extrabold uppercase tracking-wider transition-all ${
+                previewMode
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              👁️ Web Preview
+            </button>
+            <button
+              onClick={() => setPreviewMode(false)}
+              className={`px-4 py-2 rounded-lg text-xs font-extrabold uppercase tracking-wider transition-all ${
+                !previewMode
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              ✏️ Studio Editor
+            </button>
+          </div>
+
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-550 text-white rounded-xl font-bold text-sm shadow-lg shadow-emerald-550/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5"
+            className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-xl font-extrabold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
-            {saving ? (
-              <>
-                <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                <span>Saving...</span>
-              </>
-            ) : (
-              <>
-                <span>💾</span>
-                <span>Save Changes</span>
-              </>
-            )}
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>{saving ? 'Persisting...' : 'Save Modifications'}</span>
           </button>
         </div>
       </div>
 
-      {/* Floating Toolbar when selecting text */}
-      {hasSelection && (
-        <div className="bg-slate-950/90 border border-blue-500/30 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-md flex flex-wrap items-center gap-2 animate-fade-in relative z-25">
-          <div className="flex items-center gap-1.5 mr-2">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-            </span>
-            <span className="text-xs text-blue-400 font-semibold tracking-wide uppercase">AI Assistant:</span>
+      {/* Quick AI Actions Toolbar (Active when selecting text in Editor mode) */}
+      {!previewMode && (
+        <div className="p-4 bg-[#0b0d14] border border-slate-800 rounded-xl flex items-center justify-between flex-wrap gap-4 shadow-inner">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400">
+              <svg className="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <div>
+              <div className="text-xs font-extrabold text-white uppercase tracking-wider">AI Co-Pilot Controls</div>
+              <div className="text-[11px] text-slate-400">Highlight text below to trigger AI rewrites, SEO boost, or tone changes.</div>
+            </div>
           </div>
 
-          <button
-            onClick={() => handleTextAction('rewrite')}
-            disabled={processing}
-            className="px-3.5 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-200 hover:text-white border border-blue-500/30 hover:border-transparent rounded-xl font-bold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            {processing ? 'Working...' : '🔄 Rewrite'}
-          </button>
-          
-          <button
-            onClick={() => handleTextAction('improveSEO')}
-            disabled={processing}
-            className="px-3.5 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-200 hover:text-white border border-emerald-500/30 hover:border-transparent rounded-xl font-bold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            {processing ? 'Working...' : '🔍 Improve SEO'}
-          </button>
-
-          <div className="relative">
+          <div className="flex items-center gap-2 flex-wrap">
             <button
-              onClick={() => setShowToneMenu((v) => !v)}
-              disabled={processing}
-              className="px-3.5 py-1.5 bg-purple-600/20 hover:bg-purple-600 text-purple-200 hover:text-white border border-purple-500/30 hover:border-transparent rounded-xl font-bold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              onClick={() => handleTextAction('rewrite')}
+              disabled={processing || !hasSelection}
+              className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-300 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              {processing ? 'Working...' : '🎨 Change Tone'}
+              <span>✨ AI Rewrite</span>
             </button>
-            {showToneMenu && (
-              <div className="absolute right-0 mt-2 bg-slate-950 border border-slate-800 rounded-xl shadow-2xl p-3 w-56 z-50 space-y-1.5">
-                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-2 mb-1">Select Tone</div>
-                {TONES.map(t => (
-                  <button
-                    key={t.value}
-                    onClick={() => handleTextAction('changeTone', t.value)}
-                    disabled={processing}
-                    className="w-full text-left px-3 py-2 text-slate-350 hover:bg-slate-900 hover:text-white rounded-lg transition-colors font-medium text-xs cursor-pointer"
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            )}
+
+            <button
+              onClick={() => handleTextAction('improveSEO')}
+              disabled={processing || !hasSelection}
+              className="px-4 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              <span>🎯 Boost SEO</span>
+            </button>
+
+            <div className="relative">
+              <button
+                onClick={() => hasSelection ? setShowToneMenu((v) => !v) : alert('⚠️ Please highlight text in the editor below first.')}
+                disabled={processing || !hasSelection}
+                className="px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                <span>🎨 Shift Tone</span>
+              </button>
+
+              {showToneMenu && (
+                <div className="absolute right-0 mt-2 bg-[#0f121c] border border-slate-700 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.8)] p-4 w-64 z-50 backdrop-blur-2xl">
+                  <div className="text-xs font-extrabold text-slate-300 mb-3 uppercase tracking-wider pb-2 border-b border-slate-800">Select Target Tone</div>
+                  <div className="flex flex-col gap-1.5">
+                    {TONES.map((t) => (
+                      <button
+                        key={t.value}
+                        onClick={() => handleTextAction('changeTone', t.value)}
+                        disabled={processing}
+                        className="w-full text-left px-3 py-2.5 bg-slate-800/40 hover:bg-slate-700/60 text-slate-200 rounded-xl font-medium text-xs transition-all flex items-center justify-between"
+                      >
+                        <span>{t.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
 
-      {/* Editor Main Content Area */}
+      {/* Studio Workspace Content Area */}
       <div>
         {previewMode ? (
-          <div className="w-full min-h-[450px] rounded-xl border border-slate-800 bg-slate-950/20 p-6 md:p-8 text-slate-200 overflow-y-auto max-w-none">
-            <ReactMarkdown
-              components={{
-                h1: ({ node, ...props }) => (
-                  <h1 className="text-3xl font-extrabold text-white mb-6 pb-2 border-b border-slate-800/80 tracking-tight" {...props} />
-                ),
-                h2: ({ node, ...props }) => (
-                  <h2 className="text-xl font-bold text-blue-400 mt-8 mb-4 tracking-tight" {...props} />
-                ),
-                h3: ({ node, ...props }) => (
-                  <h3 className="text-lg font-bold text-purple-400 mt-6 mb-3 tracking-tight" {...props} />
-                ),
-                p: ({ node, ...props }) => (
-                  <p className="mb-4 text-slate-300 leading-relaxed text-justify" {...props} />
-                ),
-                ul: ({ node, ...props }) => (
-                  <ul className="list-disc pl-6 mb-4 space-y-2 text-slate-300" {...props} />
-                ),
-                ol: ({ node, ...props }) => (
-                  <ol className="list-decimal pl-6 mb-4 space-y-2 text-slate-300" {...props} />
-                ),
-                li: ({ node, ...props }) => (
-                  <li className="text-slate-300 leading-relaxed" {...props} />
-                ),
-                strong: ({ node, ...props }) => (
-                  <strong className="font-semibold text-white" {...props} />
-                ),
-                em: ({ node, ...props }) => (
-                  <em className="italic text-slate-200" {...props} />
-                ),
-                hr: ({ node, ...props }) => (
-                  <hr className="my-6 border-t border-slate-800" {...props} />
-                ),
-                blockquote: ({ node, ...props }) => (
-                  <blockquote className="border-l-4 border-purple-500 pl-4 italic text-slate-400 my-4 bg-slate-950/30 py-2 pr-4 rounded-r-lg" {...props} />
-                ),
-              }}
-            >
-              {content}
+          /* View 1: High-level Article Web Preview */
+          <div className="w-full min-h-[500px] rounded-2xl border border-slate-800/80 bg-[#080a0f] p-6 sm:p-12 blog-article-content shadow-inner overflow-hidden relative">
+            <div className="absolute top-0 right-0 px-4 py-1 bg-blue-500/10 border-b border-l border-slate-800 text-blue-400 text-[10px] font-mono font-bold uppercase rounded-bl-xl">
+              WEB ARTICLE RENDERER
+            </div>
+            <ReactMarkdown>
+              {content || '# No content generated yet...'}
             </ReactMarkdown>
           </div>
         ) : (
-          <textarea
-            className="w-full min-h-[450px] rounded-xl border border-slate-800 bg-slate-950/80 text-slate-100 p-5 focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-mono text-sm placeholder-slate-650 leading-relaxed resize-y"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            onSelect={handleSelection}
-            placeholder="Write your content here..."
-          />
+          /* View 2: Live Editable Content Input */
+          <div className="relative">
+            <div className="absolute top-3 right-4 px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-mono font-bold uppercase rounded-xl pointer-events-none">
+              STUDIO INTERACTIVE MODE
+            </div>
+            <textarea
+              className="w-full min-h-[500px] rounded-2xl border border-slate-800 bg-[#080a0f] text-slate-100 p-8 pt-12 focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-mono text-sm leading-relaxed placeholder-slate-600 shadow-inner resize-y"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              onSelect={handleSelection}
+              placeholder="Deploying raw AI markdown output..."
+            />
+          </div>
         )}
       </div>
 
-      {/* Embedded Images Panel */}
+      {/* Embedded Image Assets Gallery Tray */}
       {images?.length > 0 && (
-        <div className="border-t border-slate-800/80 pt-6">
-          <h4 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
-            <span>🖼️</span> Generated Images Collection
-          </h4>
+        <div className="bg-[#0b0d14] border border-slate-800 rounded-2xl p-6 shadow-inner">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="text-xs font-extrabold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <span>Attached AI Image Assets</span>
+              <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-500/30">FITTED</span>
+            </h4>
+            <p className="text-[11px] text-slate-500">Perfectly scaled for live web & export formatting.</p>
+          </div>
+
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {images.map((img, idx) => (
-              <div key={idx} className="group border border-slate-800/85 rounded-xl overflow-hidden shadow-md bg-slate-950/40 relative">
-                <img 
-                  src={img.url} 
-                  alt={img.prompt || 'Blog image'} 
-                  className="w-full h-24 object-cover group-hover:scale-105 transition-transform duration-300" 
-                />
+              <div key={idx} className="group relative border border-slate-800 rounded-xl overflow-hidden bg-[#07090e] shadow-lg hover:border-cyan-500/50 transition-all">
+                <img src={img.url} alt={img.alt || 'Blog asset'} className="w-full h-28 object-cover group-hover:scale-105 transition-all duration-300" />
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-center">
+                  <span className="text-[10px] font-mono text-cyan-300 font-bold truncate">{img.alt || `Asset #${idx + 1}`}</span>
+                </div>
               </div>
             ))}
           </div>
