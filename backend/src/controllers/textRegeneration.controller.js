@@ -1,5 +1,5 @@
 import Blog from '../models/blog.model.js';
-import huggingFaceService from '../services/huggingface.service.js';
+import aiService from '../services/ai.service.js';
 import { AppError, asyncHandler } from '../utils/errorHandler.js';
 
 export const rewriteText = asyncHandler(async (req, res) => {
@@ -27,7 +27,7 @@ export const rewriteText = asyncHandler(async (req, res) => {
     throw new AppError('Blog not found', 404);
   }
 
-  const rewrittenText = await huggingFaceService.rewriteText(
+  const rewrittenText = await aiService.rewriteText(
     selectedText.trim(),
     tone || blog.tone
   );
@@ -62,7 +62,7 @@ export const improveSEO = asyncHandler(async (req, res) => {
 
   const seoKeywords = keywords || blog.seo?.keywords || [];
 
-  const improvedText = await huggingFaceService.improveSEO(
+  const improvedText = await aiService.improveSEO(
     selectedText.trim(),
     seoKeywords
   );
@@ -104,7 +104,7 @@ export const changeTone = asyncHandler(async (req, res) => {
     throw new AppError('Blog not found', 404);
   }
 
-  const changedText = await huggingFaceService.changeTone(
+  const changedText = await aiService.changeTone(
     selectedText.trim(),
     newTone.toLowerCase()
   );

@@ -13,7 +13,15 @@ const blogSchema = new mongoose.Schema(
     images: [
       {
         url: String,
-        source: String 
+        smallUrl: String,
+        thumbUrl: String,
+        prompt: String,
+        source: String,
+        index: Number,
+        photographer: String,
+        photographerUrl: String,
+        unsplashUrl: String,
+        downloadLocation: String
       }
     ],
 
