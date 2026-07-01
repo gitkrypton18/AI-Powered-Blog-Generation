@@ -1,6 +1,28 @@
-# AI Blog Generator
+<div align="center">
 
-A full-stack web application that leverages AI to generate complete blog posts with images using Groq (Llama 3) and Unsplash. Users can create, edit, export, and manage AI-generated blog content with an intuitive, modern dark-themed interface.
+# 🚀 AI Blog Generator
+
+**Launch your AI content into orbit — generate, edit, and export polished blog posts in seconds.**
+
+[![Live Demo](https://img.shields.io/badge/▶_Live_Demo-Vercel-000?style=for-the-badge&logo=vercel&logoColor=white)](https://ai-blog-woad-chi.vercel.app)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Express](https://img.shields.io/badge/Express-5-000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://mongoosejs.com)
+[![Groq](https://img.shields.io/badge/Groq-Llama_3-F55036?style=for-the-badge&logo=meta&logoColor=white)](https://console.groq.com)
+[![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+
+<br />
+
+<img src="assets/screenshots/login-page.png" alt="AI Blog Generator — Login Page" width="800" />
+
+<br />
+
+*A full-stack web application that leverages AI to generate complete blog posts with images using Groq (Llama 3) and Unsplash. Users can create, edit, export, and manage AI-generated blog content with an intuitive, modern dark-themed interface.*
+
+</div>
 
 ---
 
@@ -22,12 +44,42 @@ graph LR
 ## ✨ Key Features
 
 - **🤖 AI-Powered Blog Generation** - Generates complete blog posts using Llama 3 models on Groq.
+
+  <img src="assets/screenshots/blog-generator.png" alt="Blog Generator — topic input, tone selector, and AI model configuration" width="720" />
+
 - **🎨 AI Image Generation** - Automatically retrieves relevant images using Unsplash API search queries based on the generated title (with Pollinations AI fallback).
+
+  <img src="assets/screenshots/ai-image-gallery.png" alt="AI Image Gallery — attached image assets fetched from Unsplash" width="720" />
+
 - **🖼️ Image Upload** - Upload custom images from your local directory to add them to your articles.
 - **✏️ Markdown Editor** - Edit blog content in a distraction-free monospace textarea with instant Markdown preview rendering.
+
+  <img src="assets/screenshots/live-preview-editor.png" alt="Live Preview Editor — Web Preview and Studio Editor toggle with rendered article" width="720" />
+
 - **🔄 Selected-Text AI Copilot** - Highlight any text block in the editor to rewrite, improve SEO keywords, or shift its tone using AI.
 - **📤 Multiple Export Formats** - Export blogs to PDF, DOCX (Word), and Markdown.
+
+  <img src="assets/screenshots/export-studio.png" alt="Export Studio — compile and download PDF or DOCX documents" width="720" />
+
 - **🔐 User Authentication** - Secure signup/login with JWT-based sessions and password hashing.
+
+  <img src="assets/screenshots/login-page.png" alt="Login Page — glassmorphism auth form with hero tagline" width="720" />
+
+---
+
+## 🖼️ Screenshots
+
+<div align="center">
+
+| Login & Onboarding | Blog Generator |
+|:---:|:---:|
+| <img src="assets/screenshots/login-page.png" alt="Login Page" width="400" /> | <img src="assets/screenshots/blog-generator.png" alt="Blog Generator" width="400" /> |
+| **Live Preview & Editor** | **AI Image Gallery** |
+| <img src="assets/screenshots/live-preview-editor.png" alt="Live Preview Editor" width="400" /> | <img src="assets/screenshots/ai-image-gallery.png" alt="AI Image Gallery" width="400" /> |
+| **Export Studio** | |
+| <img src="assets/screenshots/export-studio.png" alt="Export Studio" width="400" /> | |
+
+</div>
 
 ---
 
@@ -117,10 +169,10 @@ AI-Blog/
 
 ### Prerequisites
 
-- **Node.js** (v18 or higher)
+- **Node.js** (v20.x)
 - **MongoDB** (local server or Atlas cluster URI)
 - **Groq API Key** (get one free at [console.groq.com](https://console.groq.com))
-- **Unsplash Access Key** (optional, fell back to Pollinations AI if omitted)
+- **Unsplash Access Key** (optional, falls back to Pollinations AI if omitted)
 
 ---
 
